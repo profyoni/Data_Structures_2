@@ -9,9 +9,14 @@ public class Main {
     }
 }
 
+class T3_Model
+{
+
+}
+
 class MyWindowApp extends JFrame {
     private int x;
-
+    private String player = "X";
 
     public MyWindowApp() {
 
@@ -23,26 +28,27 @@ class MyWindowApp extends JFrame {
         //JFrame app = new JFrame();
         this.setTitle("Cool App");
 
-        this.setSize(800, 600);
+        this.setSize(660, 690);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(new GridLayout(3,3, 5,5));
 
-        JButton button = new JButton("Click Me and I will change the color");
-        this.getContentPane().add(button, BorderLayout.SOUTH);
-        JTextField textfield = new JTextField(10);
-        this.getContentPane().add(textfield, BorderLayout.CENTER);
+        for (int i=0;i<9;i++) {
+           JButton button = new JButton();
+           button.setFont(new Font("Arial", Font.BOLD, 200));
+           this.add(button);
+           button.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                   if (! button.getText().equals("")) {return;}
+                   button.setText( player );
 
-        button.addActionListener(new MyActionListener());
-        button.addActionListener(
-                new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-                x++;
-                JButton b = (JButton) e.getSource();
-                b.setText("X=" + x);
-            }
+                   if (player.equals("X"))
+                       player="O";
+                   else
+                       player="X";
+               }
+           });
         }
-        );
-        button.addActionListener(new ChangeColorActionListener());
+
 
         this.setVisible(true);
         }
