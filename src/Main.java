@@ -9,14 +9,56 @@ public class Main {
     }
 }
 
+enum Player {None, X, O}
+
+
 class T3_Model
 {
+    private static T3_Model the_Instance;
+    public static T3_Model getInstance() {
+        if (the_Instance == null) {
+            the_Instance = new T3_Model();
+        }
+        return the_Instance;
+    }
 
+    private Player[][] board = new Player[3][3];
+    private T3_Model(){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = Player.None;
+            }
+        }
+    }
+
+    private Player player = Player.X;
+    Player getCurrentPlayer(){
+        return player;
+    }
+    /**
+     *
+     * @param row
+     * @param col
+     * @return the current player
+     * @throws InvalidArgumentException
+     */
+    void makeMove(int row, int col)
+    {
+        if (! legalMove(row, col))
+            throw new IllegalArgumentException(String.format("Illegal move [%d, %d]", row, col)); // TODO indicate if occupied or out of bounds
+        board[row][col] = player;
+        player = player == Player.X ? Player.O : Player.X;
+    }
+    boolean legalMove(int row, int col){
+        if (row<0 || row>=3 || col<0 || col>=3)
+            return false;
+        return board[row][col] == Player.None;
+    }
 }
 
 class MyWindowApp extends JFrame {
     private int x;
-    private String player = "X";
+    private T3_Model model = T3_Model.getInstance();
 
     public MyWindowApp() {
 
@@ -26,27 +68,24 @@ class MyWindowApp extends JFrame {
         // windowed application
 
         //JFrame app = new JFrame();
-        this.setTitle("Cool App");
+        this.setTitle("Tick Tack Tow");
 
         this.setSize(660, 690);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new GridLayout(3,3, 5,5));
 
-        for (int i=0;i<9;i++) {
+        for (int row=0;row<3;row++)
+            for (int col=0;col<3;col++){
            JButton button = new JButton();
            button.setFont(new Font("Arial", Font.BOLD, 200));
            this.add(button);
-           button.addActionListener(new ActionListener() {
-               public void actionPerformed(ActionEvent e) {
-                   if (! button.getText().equals("")) {return;}
-                   button.setText( player );
-
-                   if (player.equals("X"))
-                       player="O";
-                   else
-                       player="X";
-               }
-           });
+                int finalRow = row;
+                int finalCol = col;
+                button.addActionListener(e->{
+                   Player p = model.getCurrentPlayer();
+                   model.makeMove(finalRow, finalCol);
+                   button.setText( p.toString() );
+               });
         }
 
 
