@@ -56,10 +56,39 @@ class T3_Model
     }
 }
 
+
+
 class MyWindowApp extends JFrame {
+    class ButtonPanel extends JPanel {
+        public ButtonPanel() {
+            setLayout(new FlowLayout());
+            this.add(new JCheckBox("computer opponent"));
+            this.add(new JButton("Save"));
+        }
+    }
+    class GamePanel extends JPanel {
+        public GamePanel() {
+            this.setLayout(new GridLayout(3,3, 5,5));
+
+            for (int row=0;row<3;row++)
+                for (int col=0;col<3;col++){
+                    JButton button = new JButton();
+                    button.setFont(new Font("Arial", Font.BOLD, 200));
+                    this.add(button);
+                    int finalRow = row;
+                    int finalCol = col;
+                    button.addActionListener(e->{
+                        Player p = model.getCurrentPlayer();
+                        model.makeMove(finalRow, finalCol);
+                        button.setText( p.toString() );
+                        statusBar.setText( String.format("Turn for : %s", model.getCurrentPlayer()) );
+                    });
+                }
+        }
+    }
     private int x;
     private T3_Model model = T3_Model.getInstance();
-
+    private JLabel statusBar = new JLabel("Status:");
     public MyWindowApp() {
 
         // GUI - Graphical User Interface
@@ -72,22 +101,10 @@ class MyWindowApp extends JFrame {
 
         this.setSize(660, 690);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(new GridLayout(3,3, 5,5));
 
-        for (int row=0;row<3;row++)
-            for (int col=0;col<3;col++){
-           JButton button = new JButton();
-           button.setFont(new Font("Arial", Font.BOLD, 200));
-           this.add(button);
-                int finalRow = row;
-                int finalCol = col;
-                button.addActionListener(e->{
-                   Player p = model.getCurrentPlayer();
-                   model.makeMove(finalRow, finalCol);
-                   button.setText( p.toString() );
-               });
-        }
-
+        this.add( new ButtonPanel(), BorderLayout.NORTH);
+        this.add( new GamePanel(), BorderLayout.CENTER);
+        this.add( statusBar, BorderLayout.SOUTH);
 
         this.setVisible(true);
         }
