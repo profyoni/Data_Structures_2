@@ -1,11 +1,13 @@
 import java.io.*;
 
+class Zigwig{}
 class MyPoint implements Serializable {
     public MyPoint(int x, int y) {
         this.x = x;
         this.y = y;
     }
     final private int x,y;
+    private transient Zigwig zigwig;
 
     public String toString() {
         return "(" + x + ", " + y + ")";
@@ -21,6 +23,8 @@ public class Files {
         catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
         try( BufferedReader br = new BufferedReader(new FileReader("test.txt"))) {
             while (br.ready()) {

@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,9 +28,43 @@ class MyCanvas extends JPanel{
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                System.out.println(e.getX() + "," + e.getY());
+              //  System.out.println(e.getX() + "," + e.getY());
                 pointList.add(new Point(e.getX(),e.getY()));
                 repaint();
+            }
+        });
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("mouseClicked" + e.getX() + "," + e.getY());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("mousePressed" + e.getX() + "," + e.getY());
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                System.out.println("mouseReleased" + e.getX() + "," + e.getY());
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                System.out.println("mouseEntered" + e.getX() + "," + e.getY());
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                System.out.println("mouseExited" + e.getX() + "," + e.getY());
+            }
+        });
+
+        addMouseWheelListener(new MouseWheelListener() {
+
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                System.out.println(e.getWheelRotation());
             }
         });
     }
