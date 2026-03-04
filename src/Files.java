@@ -1,38 +1,59 @@
 import java.io.*;
 
 class Zigwig{}
+class QQ{int a;}
 class MyPoint implements Serializable {
     public MyPoint(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    final private int x,y;
-    private transient Zigwig zigwig;
+    private transient int x,y;
+
+
 
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    private void writeObject(ObjectOutputStream out)
+            throws IOException{
+        out.defaultWriteObject();
+        out.writeInt(x);
+        out.writeInt(y);
+
+        System.out.println("writeObject");
+
+    }
+    private void readObject(ObjectInputStream in)
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        x = in.readInt();
+        y = in.readInt();
+
+        System.out.println("readObject");
+
     }
 }
 
 public class Files {
     public static void main(String[] args)  {
 
-        try (FileWriter writer = new FileWriter("test.txt")) {
-            writer.write("Hello World");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
-        try( BufferedReader br = new BufferedReader(new FileReader("test.txt"))) {
-            while (br.ready()) {
-                System.out.print(br.readLine());
-            }
-        }
-        catch (IOException e) {
-        }
+//        try (FileWriter writer = new FileWriter("test.txt")) {
+//            writer.write("Hello World");
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//
+//        try( BufferedReader br = new BufferedReader(new FileReader("test.txt"))) {
+//            while (br.ready()) {
+//                System.out.print(br.readLine());
+//            }
+//        }
+//        catch (IOException e) {
+//        }
 
         MyPoint myPoint = new MyPoint(4,5);
         try (FileOutputStream fos = new FileOutputStream("point.obj");

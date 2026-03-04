@@ -73,10 +73,16 @@ class MyCanvas extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
 
+        Dimension dim = this.getSize();
+
+        g.drawLine(0,0,dim.width,dim.height);
+        g.drawLine(dim.width,0,0,dim.height);
+
 //        Random r = new Random();
 //        Color c = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255));
 //        g.setColor(c);
 //        g.fillOval(0, 0, 100, 100);
+
 
         boolean first = true;
         Point lastPoint = null;
