@@ -1,4 +1,12 @@
+import java.awt.*;
 import java.io.*;
+import java.util.Comparator;
+
+class MyPointCmp implements Comparator<Point>, Serializable {
+    public int compare(Point p1, Point p2) {
+        return 1;
+    }
+}
 
 class Zigwig{}
 class QQ{int a;}
@@ -7,7 +15,11 @@ class MyPoint implements Serializable {
         this.x = x;
         this.y = y;
     }
+    public void setComp(Comparator<MyPoint> cmp){
+        this.cmp = cmp;
+    }
     private transient int x,y;
+    private transient Comparator<MyPoint> cmp;
 
 
 
@@ -20,6 +32,7 @@ class MyPoint implements Serializable {
         out.defaultWriteObject();
         out.writeInt(x);
         out.writeInt(y);
+        out.writeObject(cmp);
 
         System.out.println("writeObject");
 
@@ -29,6 +42,7 @@ class MyPoint implements Serializable {
         in.defaultReadObject();
         x = in.readInt();
         y = in.readInt();
+        cmp = (Comparator<MyPoint>)in.readObject();
 
         System.out.println("readObject");
 
